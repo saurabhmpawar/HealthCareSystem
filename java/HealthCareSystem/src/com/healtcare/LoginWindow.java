@@ -145,7 +145,7 @@ public class LoginWindow extends JFrame implements ActionListener {
 
 			Statement stmt = conn.createStatement();
 
-			String query = "SELECT * FROM Login WHERE USERNAME='" + loginname
+			String query = "SELECT * FROM login WHERE USERNAME='" + loginname
 					+ "'AND PASSWORD='" + loginpass + "'";
 			ResultSet rs = stmt.executeQuery(query);
 			boolean recordfound = rs.next();

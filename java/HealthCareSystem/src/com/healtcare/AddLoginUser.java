@@ -118,6 +118,7 @@ public class AddLoginUser extends JInternalFrame implements ActionListener {
 			try {
 				conn = connect.setConnection(conn);
 			} catch (Exception e) {
+				e.printStackTrace();
 			}
 
 			if (PASS.equals(PASS2)) {
@@ -135,12 +136,8 @@ public class AddLoginUser extends JInternalFrame implements ActionListener {
 									+ " pass:" + PASS);
 							//INSERT INTO Login VALUES ('pavan','aaaa');
 							
-							String a="INSERT INTO Login VALUES ('"+Emp_Name1+"','"+PASS+"')";
-									System.out.println("ssssss"+a);
-							
-							String temp = "INSERT INTO Login VALUES ('"+ Emp_Name1 + "','" + PASS + "')";
-
-							int result = stmt.executeUpdate(temp);
+							String a="INSERT INTO login (USERNAME ,PASSWORD)VALUES ('"+Emp_Name1+"','"+PASS+"')";
+							int result = stmt.executeUpdate(a);
 							if (result == 1) {
 								System.out.println("Recorded Added");
 								ResetRecord();
@@ -161,6 +158,7 @@ public class AddLoginUser extends JInternalFrame implements ActionListener {
 						}
 						conn.close();
 					} catch (Exception ex) {
+						ex.printStackTrace();
 						JOptionPane.showMessageDialog(null,
 								"GENERAL EXCEPTION", "WARNING!!!",
 								JOptionPane.INFORMATION_MESSAGE);
@@ -199,6 +197,7 @@ public class AddLoginUser extends JInternalFrame implements ActionListener {
 		try {
 			conn = connect.setConnection(conn);
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		try {
 			Statement stmt = conn.createStatement();
@@ -215,6 +214,8 @@ public class AddLoginUser extends JInternalFrame implements ActionListener {
 		}
 
 		catch (Exception ex) {
+			
+			ex.printStackTrace();
 
 		}
 

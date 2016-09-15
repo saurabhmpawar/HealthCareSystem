@@ -172,6 +172,8 @@ public class Dashboard extends JFrame implements ActionListener {
 		menuFile.add(settings.setJMenuItem(itemExit, "Quit", "src/images/exit.png"));
 
 		itemExit.addActionListener(this);
+		
+		itemAddLogin.addActionListener(this);
 
 		// MEnu Employee
 		menuEmployee.add(settings.setJMenuItem(itemAdd, "Add Employee",
