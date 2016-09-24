@@ -36,6 +36,22 @@ CREATE TABLE IF NOT EXISTS `login` (
 --
 -- Dumping data for table `login`
 --
+CREATE TABLE IF NOT EXISTS `ambulance` (
+  `ambulance_id` int(10) NOT NULL,
+  `ambulance_number` varchar(15) NOT NULL,  
+  `driver_name` varchar(255) NOT NULL,
+  `driver_ph` varchar(15) NOT NULL,
+  `hospital_ph` varchar(15) NOT NULL,
+  `hospital_nm` varchar(255) NOT NULL,
+  `ambulance_adr` varchar(255) NOT NULL,
+  `ambulance_lat` decimal(20,16) NOT NULL,
+  `ambulance_long` decimal(20,16) NOT NULL,
+  `ambulane_status` varchar(20) NOT NULL,
+  `city` varchar(50) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  PRIMARY KEY (`ambulance_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 
 INSERT INTO `login` (`id`, `USERNAME`, `PASSWORD`) VALUES
 (1, 'saurabh', 'saurabh');
