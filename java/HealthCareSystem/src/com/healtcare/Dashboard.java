@@ -30,7 +30,7 @@ import javax.swing.JTextField;
 import javax.swing.JToolBar;
 /**
  * 
- * @author Pavankunj
+ * @author saurabh pawar
  *
  */
 public class Dashboard extends JFrame implements ActionListener {
@@ -42,9 +42,9 @@ public class Dashboard extends JFrame implements ActionListener {
 
 	JMenuBar menubar = new JMenuBar();
 	AddLoginUser addLoginUser;
-
+    AddAmbulance addAmbulanceObj;
 	JMenu menuFile = new JMenu("File");
-	JMenu menuEmployee = new JMenu("Employee");
+	JMenu menuAmbulance = new JMenu("Ambuance");
 	JMenu menuTools = new JMenu("Tools");
 	JMenu menuReports = new JMenu("Reports");
 	JMenu menuHelp = new JMenu("Help");
@@ -176,12 +176,12 @@ public class Dashboard extends JFrame implements ActionListener {
 		itemAddLogin.addActionListener(this);
 
 		// MEnu Employee
-		menuEmployee.add(settings.setJMenuItem(itemAdd, "Add Employee",
+		menuAmbulance.add(settings.setJMenuItem(itemAdd, "Add Ambulance",
 				"src/images/employee.png"));
-		menuEmployee.add(settings.setJMenuItem(itemEdit, "Edit Employee",
+		menuAmbulance.add(settings.setJMenuItem(itemEdit, "Edit Ambulance",
 				"src/images/edit.png"));
-		menuEmployee.addSeparator();
-		menuEmployee.add(settings.setJMenuItem(itemDelete, "Delete Employee",
+		menuAmbulance.addSeparator();
+		menuAmbulance.add(settings.setJMenuItem(itemDelete, "Delete Ambulance",
 				"src/images/delete.png"));
 
 		itemAdd.addActionListener(this);
@@ -203,7 +203,7 @@ public class Dashboard extends JFrame implements ActionListener {
 
 		// setting Reports bar
 
-		menuReports.add(settings.setJMenuItem(itemEmprpt, "Employee Report",
+		menuReports.add(settings.setJMenuItem(itemEmprpt, "Ambulance Report",
 				"src/images/emp_rpt.png"));
 		menuTools.addSeparator();
 		menuTools.addSeparator();
@@ -221,7 +221,7 @@ public class Dashboard extends JFrame implements ActionListener {
 		// adding menuitem to menubar
 
 		menubar.add(settings.setJMenu(menuFile));
-		menubar.add(settings.setJMenu(menuEmployee));
+		menubar.add(settings.setJMenu(menuAmbulance));
 		menubar.add(settings.setJMenu(menuTools));
 		menubar.add(settings.setJMenu(menuReports));
 		menubar.add(settings.setJMenu(menuHelp));
@@ -237,14 +237,14 @@ public class Dashboard extends JFrame implements ActionListener {
 		toolbar.addSeparator();
 		toolbar.addSeparator();
 
-		toolbar.add(settings.CreateJToolbarButton("Add - Employee",
+		toolbar.add(settings.CreateJToolbarButton("Add - Ambulance",
 				"src/images/employee.png", "Emp_Add", JToolBarActionListener));
 
-		toolbar.add(settings.CreateJToolbarButton("Edit - Employee",
+		toolbar.add(settings.CreateJToolbarButton("Edit - Ambulance",
 				"src/images/edit.png", "Emp_Edit", JToolBarActionListener));
 		toolbar.addSeparator();
 
-		toolbar.add(settings.CreateJToolbarButton("Delete - Employee",
+		toolbar.add(settings.CreateJToolbarButton("Delete - Ambulance",
 				"src/images/delete.png", "Emp_Delete", JToolBarActionListener));
 		toolbar.addSeparator();
 		toolbar.addSeparator();
@@ -258,7 +258,7 @@ public class Dashboard extends JFrame implements ActionListener {
 		toolbar.addSeparator();
 		toolbar.addSeparator();
 
-		toolbar.add(settings.CreateJToolbarButton("Employee - Report",
+		toolbar.add(settings.CreateJToolbarButton("Ambulance - Report",
 				"src/images/emp_rpt.png", "Reports_Employee",
 				JToolBarActionListener));
 
@@ -344,7 +344,7 @@ public class Dashboard extends JFrame implements ActionListener {
 			
 			try {
 				addLoginUser =new  AddLoginUser(this);
-				 loadForm("Add Employee", addLoginUser);
+				 loadForm("Add Admin", addLoginUser);
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.out.println("\nError");
@@ -356,9 +356,10 @@ public class Dashboard extends JFrame implements ActionListener {
 
 		case 3:
 			try {
-				// FormAddwindow = new Addwindow(this);
-				// loadForm("Add Employee", FormAddwindow);
+			 addAmbulanceObj = new AddAmbulance(this);
+				 loadForm("Add Ambulance", addAmbulanceObj);
 			} catch (Exception e) {
+				e.printStackTrace();
 				System.out.println("\nError");
 			}
 			break;
