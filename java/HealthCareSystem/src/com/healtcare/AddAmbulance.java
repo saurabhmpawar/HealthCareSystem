@@ -165,15 +165,14 @@ public class AddAmbulance extends JInternalFrame implements ActionListener {
 		panel2.setOpaque(true);
 		panel3 = new JPanel();
 		panel3.setLayout(new FlowLayout());
-
 		loadTableData();
 
 		JScrollPane scrollPane = new JScrollPane(table);
 		panel3.add(scrollPane);
 		getContentPane().setLayout(new GridLayout(2, 1));
 		getContentPane().add(firstpanel, "CENTER");
-		getContentPane().add(panel2, "CENTER");
 		getContentPane().add(panel3, "CENTER");
+		getContentPane().add(panel2, "CENTER");
 
 		setFrameIcon(new ImageIcon("src/images/backup.gif"));
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
