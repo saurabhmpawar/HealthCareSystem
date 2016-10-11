@@ -25,6 +25,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import net.proteanit.sql.DbUtils;
+
 import org.omg.CORBA.StringHolder;
 
 public class AddAmbulance extends JInternalFrame implements ActionListener {
@@ -97,6 +99,8 @@ public class AddAmbulance extends JInternalFrame implements ActionListener {
 		super("Add - Ambulance details ", true, true, true, true);
 		columnNames = new Vector();
 		data = new Vector();
+		
+		table = new JTable();
 
 		setSize(400, 800);
 		JFParentFrame = getParentFrame;
@@ -200,7 +204,7 @@ public class AddAmbulance extends JInternalFrame implements ActionListener {
 			ResultSetMetaData md = rs.getMetaData();
 			int columns = md.getColumnCount();
 
-			for (int i = 1; i <= columns; i++) {
+		/*	for (int i = 1; i <= columns; i++) {
 				columnNames.addElement(md.getColumnName(i));
 			}
 
@@ -214,10 +218,10 @@ public class AddAmbulance extends JInternalFrame implements ActionListener {
 
 				data.addElement(row);
 				table = new JTable(data, columnNames);
-				
-				
-			//table.setModel();
-			}
+
+			}*/
+			
+			table.setModel(DbUtils.resultSetToTableModel(rs));
 
 		} catch (Exception ex) {
 			ex.printStackTrace();

@@ -24,6 +24,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import net.proteanit.sql.DbUtils;
+
 public class DeleteAmbulance extends JInternalFrame implements ActionListener {
 
 	JFrame JFParentFrame;
@@ -97,6 +99,7 @@ public class DeleteAmbulance extends JInternalFrame implements ActionListener {
 		setSize(400, 800);
 		JFParentFrame = getParentFrame;
 
+		table = new JTable();
 		firstpanel = new JPanel();
 		lblAmulanceId = new JLabel("Ambulance Id");
 		lblAmbulanceNumber = new JLabel("Ambulance Number   ");
@@ -184,8 +187,7 @@ public class DeleteAmbulance extends JInternalFrame implements ActionListener {
 
 		setFrameIcon(new ImageIcon("src/images/backup.gif"));
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-
-		
+		enableMyTextBoxes(false);
 		pack();
 
 	}
@@ -198,25 +200,26 @@ public class DeleteAmbulance extends JInternalFrame implements ActionListener {
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 
-			ResultSetMetaData md = rs.getMetaData();
-			int columns = md.getColumnCount();
+			/*
+			 * ResultSetMetaData md = rs.getMetaData(); int columns =
+			 * md.getColumnCount();
+			 * 
+			 * for (int i = 1; i <= columns; i++) {
+			 * columnNames.addElement(md.getColumnName(i)); }
+			 * 
+			 * while (rs.next()) { Vector row = new Vector(columns);
+			 * 
+			 * for (int i = 1; i <= columns; i++) {
+			 * row.addElement(rs.getObject(i));
+			 * 
+			 * }
+			 * 
+			 * data.addElement(row); table = new JTable(data, columnNames);
+			 * 
+			 * }
+			 */
 
-			for (int i = 1; i <= columns; i++) {
-				columnNames.addElement(md.getColumnName(i));
-			}
-
-			while (rs.next()) {
-				Vector row = new Vector(columns);
-
-				for (int i = 1; i <= columns; i++) {
-					row.addElement(rs.getObject(i));
-
-				}
-
-				data.addElement(row);
-				table = new JTable(data, columnNames);
-
-			}
+			table.setModel(DbUtils.resultSetToTableModel(rs));
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -342,6 +345,7 @@ public class DeleteAmbulance extends JInternalFrame implements ActionListener {
 						int result = stmt.executeUpdate(temp);
 
 						if (result == 1) {
+							loadTableData();
 							dialogmessage = "Ambulance Record Deleted!!!";
 							dialogtype = JOptionPane.WARNING_MESSAGE;
 							JOptionPane.showMessageDialog((Component) null,
@@ -352,7 +356,7 @@ public class DeleteAmbulance extends JInternalFrame implements ActionListener {
 						else
 
 						{
-							dialogmessage = "No Such Employuee";
+							dialogmessage = "No Such Ambulance";
 
 							dialogtype = JOptionPane.WARNING_MESSAGE;
 							JOptionPane.showMessageDialog((Component) null,

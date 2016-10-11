@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.Statement;
 import java.util.Vector;
 
@@ -24,7 +23,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
-import sun.text.normalizer.CharTrie.FriendAgent;
+import net.proteanit.sql.DbUtils;
 
 public class EditAmbulance extends JInternalFrame implements ActionListener {
 
@@ -95,10 +94,9 @@ public class EditAmbulance extends JInternalFrame implements ActionListener {
 
 		columnNames = new Vector();
 		data = new Vector();
-
+		table = new JTable();
 		setSize(400, 800);
 		JFParentFrame = getParentFrame;
-
 		firstpanel = new JPanel();
 		lblAmulanceId = new JLabel("Ambulance Id");
 		lblAmbulanceNumber = new JLabel("Ambulance Number   ");
@@ -179,7 +177,6 @@ public class EditAmbulance extends JInternalFrame implements ActionListener {
 		ExitBtn.addActionListener(this);
 		panel2.setOpaque(true);
 
-		
 		getContentPane().setLayout(new GridLayout(2, 1));
 		getContentPane().add(firstpanel, "CENTER");
 		getContentPane().add(panel3, "CENTER");
@@ -192,7 +189,6 @@ public class EditAmbulance extends JInternalFrame implements ActionListener {
 
 		// getContentPane().add(buttonPanel, BorderLayout.SOUTH);
 
-
 		enableMyTextBoxes(false);
 		pack();
 
@@ -201,31 +197,10 @@ public class EditAmbulance extends JInternalFrame implements ActionListener {
 	private void loadTableData() {
 		try {
 			conn = connect.setConnection(conn);
-
 			String query = "select * from ambulance";
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
-
-			ResultSetMetaData md = rs.getMetaData();
-			int columns = md.getColumnCount();
-
-			for (int i = 1; i <= columns; i++) {
-				columnNames.addElement(md.getColumnName(i));
-			}
-
-			while (rs.next()) {
-				Vector row = new Vector(columns);
-
-				for (int i = 1; i <= columns; i++) {
-					row.addElement(rs.getObject(i));
-
-				}
-
-				data.addElement(row);
-				table = new JTable(data, columnNames);
-
-			}
-
+			table.setModel(DbUtils.resultSetToTableModel(rs));
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -237,7 +212,6 @@ public class EditAmbulance extends JInternalFrame implements ActionListener {
 
 		Object source = event.getSource();
 
-		
 		if (source.equals(FindBtn)) {
 
 			strAmbulanceId = txtAmbulanceId.getText().trim();
@@ -367,17 +341,17 @@ public class EditAmbulance extends JInternalFrame implements ActionListener {
 							+ "',driver_ph = '" + strDriverPhone
 							+ "',hospital_ph = '" + strHospitalPhone
 							+ "',hospital_nm = '" + strHospitalName
-							+ "',ambulance_adr = '" + strAmbulanceAdderss 
-							+ "',city = '" + strCity 
-							+ "',description = '" + strAmbulanceAdderssdescription 
-							+ "',ambulance_lat = " + strAmbulanceLat 
-							+ ",ambulance_long = " + strAmbulanceLong 
+							+ "',ambulance_adr = '" + strAmbulanceAdderss
+							+ "',city = '" + strCity + "',description = '"
+							+ strAmbulanceAdderssdescription
+							+ "',ambulance_lat = " + strAmbulanceLat
+							+ ",ambulance_long = " + strAmbulanceLong
 							+ "WHERE ambulance_id = " + strAmbulanceId;
-					System.out.println("Update query= "+temp);
-					
+					System.out.println("Update query= " + temp);
+
 					int result = stmt.executeUpdate(temp);
 					if (result == 1) {
-
+						loadTableData();
 						dialogmessage = "Record Updated!!!";
 						dialogtype = JOptionPane.INFORMATION_MESSAGE;
 						JOptionPane.showMessageDialog((Component) null,
