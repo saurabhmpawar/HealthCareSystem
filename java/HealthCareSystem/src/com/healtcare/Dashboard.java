@@ -59,6 +59,7 @@ public class Dashboard extends JFrame implements ActionListener {
 	JMenuItem itemAdd = new JMenuItem();
 	JMenuItem ambulanceEdit = new JMenuItem();
 	JMenuItem itemDelete = new JMenuItem();
+	JMenuItem searchAmbulance = new JMenuItem();
 
 	JMenuItem itemCalculator = new JMenuItem();
 	JMenuItem itemNotePad = new JMenuItem();
@@ -187,9 +188,15 @@ public class Dashboard extends JFrame implements ActionListener {
 		menuAmbulance.add(settings.setJMenuItem(itemDelete, "Delete Ambulance",
 				"src/images/delete.png"));
 
+		menuAmbulance.addSeparator();
+
+		menuAmbulance.add(settings.setJMenuItem(searchAmbulance,
+				"Search Ambulance", "src/images/search.png"));
+
 		itemAdd.addActionListener(this);
 		ambulanceEdit.addActionListener(this);
 		itemDelete.addActionListener(this);
+		searchAmbulance.addActionListener(this);
 
 		// setting tool bar
 
@@ -321,6 +328,8 @@ public class Dashboard extends JFrame implements ActionListener {
 			loadJInternalFrame(4);
 		} else if (object == itemDelete) {
 			loadJInternalFrame(5);
+		} else if (object == searchAmbulance) {
+			loadJInternalFrame(6);
 		} else if (object == itemCalculator) {
 			loadJInternalFrame(7);
 
@@ -370,6 +379,7 @@ public class Dashboard extends JFrame implements ActionListener {
 				// FormEditwindow = new Editwindow(this);
 				loadForm("Edit Ambulance", new EditAmbulance(this));
 			} catch (Exception e) {
+				e.printStackTrace();
 				System.out.println("\nError");
 			}
 			break;
@@ -379,15 +389,16 @@ public class Dashboard extends JFrame implements ActionListener {
 				// FormDeletewindow = new Deletewindow(this);
 				loadForm("Delete Ambulance", new DeleteAmbulance(this));
 			} catch (Exception e) {
+				e.printStackTrace();
 				System.out.println("\nError");
 			}
 			break;
 
 		case 6:
 			try {
-				// FormSettingswindow = new Settingswindow(this);
-				// loadForm("Settings of Employee", FormSettingswindow);
+				loadForm("Search Ambulance", new SearchAmbulance(this));
 			} catch (Exception e) {
+				e.printStackTrace();
 				System.out.println("\nError");
 			}
 			break;
