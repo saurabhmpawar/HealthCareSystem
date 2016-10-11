@@ -12,10 +12,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.Statement;
 import java.util.Date;
-import java.util.Vector;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -50,9 +48,7 @@ public class LoginWindow extends JFrame implements ActionListener {
 	public String loginname;
 	public String loginpass;
 
-	// class Veriables
 	clsConnection connect = new clsConnection();
-	// Connection variable
 
 	Connection conn;
 	Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
@@ -60,7 +56,7 @@ public class LoginWindow extends JFrame implements ActionListener {
 	static Date td = new Date();
 
 	public LoginWindow() {
-		
+
 		panel1 = new JPanel();
 		panel1.setLayout(new FlowLayout());
 		nameLbl = new JLabel("WELCOME TO HealthCare  SYSTEM");

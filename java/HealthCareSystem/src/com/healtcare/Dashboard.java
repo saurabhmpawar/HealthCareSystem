@@ -36,6 +36,7 @@ import javax.swing.JToolBar;
  */
 public class Dashboard extends JFrame implements ActionListener {
 
+	private static final long serialVersionUID = 2073178829274522057L;
 	JDesktopPane desktop = new JDesktopPane();
 	String sMSGBOX_TITLE = "Health Care System V. 1.0";
 
@@ -59,7 +60,6 @@ public class Dashboard extends JFrame implements ActionListener {
 	JMenuItem ambulanceEdit = new JMenuItem();
 	JMenuItem itemDelete = new JMenuItem();
 
-	JMenuItem itemSettings = new JMenuItem();
 	JMenuItem itemCalculator = new JMenuItem();
 	JMenuItem itemNotePad = new JMenuItem();
 
@@ -178,7 +178,7 @@ public class Dashboard extends JFrame implements ActionListener {
 
 		itemAddLogin.addActionListener(this);
 
-		// MEnu Employee
+		// MEnu Ambulance
 		menuAmbulance.add(settings.setJMenuItem(itemAdd, "Add Ambulance",
 				"src/images/employee.png"));
 		menuAmbulance.add(settings.setJMenuItem(ambulanceEdit,
@@ -192,15 +192,13 @@ public class Dashboard extends JFrame implements ActionListener {
 		itemDelete.addActionListener(this);
 
 		// setting tool bar
-		menuTools.add(settings.setJMenuItem(itemSettings, "Settings",
-				"src/images/setting.png"));
+
 		menuTools.add(settings.setJMenuItem(itemCalculator, "Calculator",
 				"src/images/calc.png"));
 		menuTools.addSeparator();
 		menuTools.add(settings.setJMenuItem(itemNotePad, "NotePad",
 				"src/images/notepad.png"));
 
-		itemSettings.addActionListener(this);
 		itemCalculator.addActionListener(this);
 		itemNotePad.addActionListener(this);
 
@@ -323,8 +321,6 @@ public class Dashboard extends JFrame implements ActionListener {
 			loadJInternalFrame(4);
 		} else if (object == itemDelete) {
 			loadJInternalFrame(5);
-		} else if (object == itemSettings) {
-			loadJInternalFrame(6);
 		} else if (object == itemCalculator) {
 			loadJInternalFrame(7);
 
@@ -381,7 +377,7 @@ public class Dashboard extends JFrame implements ActionListener {
 		case 5:
 			try {
 				// FormDeletewindow = new Deletewindow(this);
-				 loadForm("Delete Ambulance", new DeleteAmbulance(this));
+				loadForm("Delete Ambulance", new DeleteAmbulance(this));
 			} catch (Exception e) {
 				System.out.println("\nError");
 			}

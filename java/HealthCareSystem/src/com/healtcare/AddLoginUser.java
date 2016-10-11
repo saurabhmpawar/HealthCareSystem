@@ -6,12 +6,10 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.Statement;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
@@ -23,7 +21,7 @@ import javax.swing.JTextField;
 
 public class AddLoginUser extends JInternalFrame implements ActionListener {
 
-	// Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+	private static final long serialVersionUID = 8755118638310025697L;
 	JFrame JFParentFrame;
 	JDesktopPane desktop;
 	private JPanel firstpanel;
@@ -33,7 +31,6 @@ public class AddLoginUser extends JInternalFrame implements ActionListener {
 	private JButton ExitBtn;
 	private JLabel LblEmp_Name1, LblEmp_Name2, Lblretry;
 	private JTextField TxtEmp_Name1;
-	private JComboBox Emp_Type;
 
 	private static JPasswordField passwordTxt, TxtPass2;
 	String dialogmessage;
@@ -129,12 +126,8 @@ public class AddLoginUser extends JInternalFrame implements ActionListener {
 
 						Statement stmt = conn.createStatement();
 						if (!Emp_Name1.equals("") && !passwordTxt.equals("")) {
-							// ==========================================insert
-							// into table FG ===================================
-
 							System.out.println("Login name:" + Emp_Name1
 									+ " pass:" + PASS);
-							// INSERT INTO Login VALUES ('pavan','aaaa');
 
 							String a = "INSERT INTO login (USERNAME ,PASSWORD)VALUES ('"
 									+ Emp_Name1 + "','" + PASS + "')";
@@ -191,35 +184,6 @@ public class AddLoginUser extends JInternalFrame implements ActionListener {
 		TxtEmp_Name1.setText("");
 		passwordTxt.setText("");
 		TxtPass2.setText("");
-	}
-
-	public void add_Cat_combo(JComboBox cmb) {
-
-		try {
-			conn = connect.setConnection(conn);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		try {
-			Statement stmt = conn.createStatement();
-			String query = "SELECT * FROM Settings";
-			ResultSet rs = stmt.executeQuery(query);
-			while (rs.next()) {
-				String Txtcmb = rs.getString(2).trim();
-				record = rs.getInt("Category_Type");
-
-				cmb.addItem(Txtcmb);
-
-			}
-			conn.close();
-		}
-
-		catch (Exception ex) {
-
-			ex.printStackTrace();
-
-		}
-
 	}
 
 }

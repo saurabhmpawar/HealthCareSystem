@@ -8,11 +8,9 @@ import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.Vector;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
@@ -27,6 +25,7 @@ import net.proteanit.sql.DbUtils;
 
 public class EditAmbulance extends JInternalFrame implements ActionListener {
 
+	private static final long serialVersionUID = 7989244126649664217L;
 	JFrame JFParentFrame;
 	JDesktopPane desktop;
 	private JPanel firstpanel;
@@ -75,14 +74,9 @@ public class EditAmbulance extends JInternalFrame implements ActionListener {
 	String strCity;
 	String strAmbulanceAdderssdescription; // Class Variables
 
-	Vector columnNames;
-	Vector data;
-
 	int dialogtype = JOptionPane.PLAIN_MESSAGE;
 	String dialogmessage;
 	String dialogs;
-
-	private JComboBox Emp_Type;
 
 	// Class Variables
 	clsSettings settings = new clsSettings();
@@ -92,8 +86,6 @@ public class EditAmbulance extends JInternalFrame implements ActionListener {
 	public EditAmbulance(JFrame getParentFrame) {
 		super("Edit - Ambuance ", true, true, true, true);
 
-		columnNames = new Vector();
-		data = new Vector();
 		table = new JTable();
 		setSize(400, 800);
 		JFParentFrame = getParentFrame;
@@ -185,10 +177,6 @@ public class EditAmbulance extends JInternalFrame implements ActionListener {
 		setFrameIcon(new ImageIcon("src/images/backup.gif"));
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
-		// JPanel buttonPanel = new JPanel();
-
-		// getContentPane().add(buttonPanel, BorderLayout.SOUTH);
-
 		enableMyTextBoxes(false);
 		pack();
 
@@ -220,6 +208,7 @@ public class EditAmbulance extends JInternalFrame implements ActionListener {
 			try {
 				conn = connect.setConnection(conn);
 			} catch (Exception e) {
+				e.printStackTrace();
 			}
 			try {
 
@@ -319,6 +308,7 @@ public class EditAmbulance extends JInternalFrame implements ActionListener {
 			try {
 				conn = connect.setConnection(conn);
 			} catch (Exception e) {
+				e.printStackTrace();
 			}
 			try {
 
@@ -424,35 +414,6 @@ public class EditAmbulance extends JInternalFrame implements ActionListener {
 		txtAmbulanceLong.setText("");
 		txtCity.setText("");
 		txtDescription.setText("");
-	}
-
-	public void add_Cat_combo(JComboBox cmb) {
-
-		try {
-			conn = connect.setConnection(conn);
-		} catch (Exception e) {
-		}
-		try {
-
-			Statement stmt = conn.createStatement();
-
-			String query = "SELECT * FROM Settings";
-			ResultSet rs = stmt.executeQuery(query);
-
-			while (rs.next()) {
-
-				String Txtcmb = rs.getString(2).trim();
-
-				cmb.addItem(Txtcmb);
-
-			}
-			conn.close();
-		}
-
-		catch (Exception ex) {
-
-		}
-
 	}
 
 }

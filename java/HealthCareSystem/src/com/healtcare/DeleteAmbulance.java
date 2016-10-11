@@ -7,13 +7,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.Statement;
-import java.util.Vector;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
@@ -28,6 +25,7 @@ import net.proteanit.sql.DbUtils;
 
 public class DeleteAmbulance extends JInternalFrame implements ActionListener {
 
+	private static final long serialVersionUID = 6221602684215835983L;
 	JFrame JFParentFrame;
 	JDesktopPane desktop;
 	private JPanel firstpanel;
@@ -76,14 +74,9 @@ public class DeleteAmbulance extends JInternalFrame implements ActionListener {
 	String strCity;
 	String strAmbulanceAdderssdescription; // Class Variables
 
-	Vector columnNames;
-	Vector data;
-
 	int dialogtype = JOptionPane.PLAIN_MESSAGE;
 	String dialogmessage;
 	String dialogs;
-
-	private JComboBox Emp_Type;
 
 	// Class Variables
 	clsSettings settings = new clsSettings();
@@ -92,9 +85,6 @@ public class DeleteAmbulance extends JInternalFrame implements ActionListener {
 
 	public DeleteAmbulance(JFrame getParentFrame) {
 		super("Delete - Ambuance ", true, true, true, true);
-
-		columnNames = new Vector();
-		data = new Vector();
 
 		setSize(400, 800);
 		JFParentFrame = getParentFrame;
@@ -199,26 +189,7 @@ public class DeleteAmbulance extends JInternalFrame implements ActionListener {
 			String query = "select * from ambulance";
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
-
-			/*
-			 * ResultSetMetaData md = rs.getMetaData(); int columns =
-			 * md.getColumnCount();
-			 * 
-			 * for (int i = 1; i <= columns; i++) {
-			 * columnNames.addElement(md.getColumnName(i)); }
-			 * 
-			 * while (rs.next()) { Vector row = new Vector(columns);
-			 * 
-			 * for (int i = 1; i <= columns; i++) {
-			 * row.addElement(rs.getObject(i));
-			 * 
-			 * }
-			 * 
-			 * data.addElement(row); table = new JTable(data, columnNames);
-			 * 
-			 * }
-			 */
-
+			// use of DbUtils third party library
 			table.setModel(DbUtils.resultSetToTableModel(rs));
 
 		} catch (Exception ex) {
@@ -235,7 +206,6 @@ public class DeleteAmbulance extends JInternalFrame implements ActionListener {
 		if (source.equals(FindBtn)) {
 
 			strAmbulanceId = txtAmbulanceId.getText().trim();
-			// sEmp_Code = TxtEmp_Code.getText().trim();
 
 			try {
 				conn = connect.setConnection(conn);

@@ -1,6 +1,5 @@
 package com.healtcare;
 
-import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -8,13 +7,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.Statement;
-import java.util.Vector;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
@@ -27,9 +23,9 @@ import javax.swing.JTextField;
 
 import net.proteanit.sql.DbUtils;
 
-import org.omg.CORBA.StringHolder;
-
 public class AddAmbulance extends JInternalFrame implements ActionListener {
+
+	private static final long serialVersionUID = 925464882234346671L;
 
 	JFrame JFParentFrame;
 	JDesktopPane desktop;
@@ -66,12 +62,6 @@ public class AddAmbulance extends JInternalFrame implements ActionListener {
 	private JTextField txtCity;
 	private JTextField txtDescription;
 
-	private JComboBox Emp_Type;
-
-	// private static JPasswordField passwordTxt, TxtPass2;
-	String dialogmessage;
-	String dialogs;
-
 	int dialogtype = JOptionPane.PLAIN_MESSAGE;
 	public static int record;
 	String strAmbulanceNumber;
@@ -87,19 +77,18 @@ public class AddAmbulance extends JInternalFrame implements ActionListener {
 	String strCity;
 	String strAmbulanceAdderssdescription; // Class Variables
 
+	String dialogmessage;
+	String dialogs;
+
 	clsSettings settings = new clsSettings();
 	clsConnection connect = new clsConnection();
 
 	Connection conn;
-	Vector columnNames;
-	Vector data;
 
 	public AddAmbulance(JFrame getParentFrame) {
 
 		super("Add - Ambulance details ", true, true, true, true);
-		columnNames = new Vector();
-		data = new Vector();
-		
+
 		table = new JTable();
 
 		setSize(400, 800);
@@ -184,11 +173,6 @@ public class AddAmbulance extends JInternalFrame implements ActionListener {
 
 		setFrameIcon(new ImageIcon("src/images/backup.gif"));
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-
-		// JPanel buttonPanel = new JPanel();
-
-		// getContentPane().add(buttonPanel, BorderLayout.SOUTH);
-
 		pack();
 
 	}
@@ -196,31 +180,9 @@ public class AddAmbulance extends JInternalFrame implements ActionListener {
 	private void loadTableData() {
 		try {
 			conn = connect.setConnection(conn);
-
 			String query = "select * from ambulance";
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
-
-			ResultSetMetaData md = rs.getMetaData();
-			int columns = md.getColumnCount();
-
-		/*	for (int i = 1; i <= columns; i++) {
-				columnNames.addElement(md.getColumnName(i));
-			}
-
-			while (rs.next()) {
-				Vector row = new Vector(columns);
-
-				for (int i = 1; i <= columns; i++) {
-					row.addElement(rs.getObject(i));
-
-				}
-
-				data.addElement(row);
-				table = new JTable(data, columnNames);
-
-			}*/
-			
 			table.setModel(DbUtils.resultSetToTableModel(rs));
 
 		} catch (Exception ex) {
@@ -250,9 +212,6 @@ public class AddAmbulance extends JInternalFrame implements ActionListener {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-
-			String PASS = "";
-			String PASS2 = "";
 
 			System.out.println("CORRECT PASSSSSSSSSSSSSSSS");
 
@@ -333,38 +292,6 @@ public class AddAmbulance extends JInternalFrame implements ActionListener {
 		txtAmbulanceLong.setText("");
 		txtCity.setText("");
 		txtDescription.setText("");
-	}
-
-	public void add_Cat_combo(JComboBox cmb) {
-
-		try {
-			conn = connect.setConnection(conn);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		try {
-			Statement stmt = conn.createStatement();
-			String query = "INSERT INTO `healthcare`.`ambulance` (`ambulance_id`, `ambulance_number`, `driver_name`, `driver_ph`, `hospital_ph`, `hospital_nm`, `ambulance_adr`, `ambulance_lat`, `ambulance_long`, `ambulane_status`, `city`, `description`) VALUES (1, 'Md 10 BS 5948', 'Mr .Saurabh Pawar', '9423523922', '9421126028', 'Pawar hospital', 'vita', '21.7854558', '74.3545588', 'ACTIVE', 'VITA', 'maruti van')";
-
-			int result = stmt.executeUpdate(query);
-			if (result == 1) {
-				System.out.println("Recorded Added");
-				ResetRecord();
-				dialogmessage = "Recoard is added!!!";
-				dialogtype = JOptionPane.WARNING_MESSAGE;
-				JOptionPane.showMessageDialog((Component) null, dialogmessage,
-						dialogs, dialogtype);
-			} else
-
-				conn.close();
-		}
-
-		catch (Exception ex) {
-
-			ex.printStackTrace();
-
-		}
-
 	}
 
 }
