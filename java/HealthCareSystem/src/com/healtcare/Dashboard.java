@@ -28,6 +28,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
+
 /**
  * 
  * @author saurabh pawar
@@ -42,7 +43,7 @@ public class Dashboard extends JFrame implements ActionListener {
 
 	JMenuBar menubar = new JMenuBar();
 	AddLoginUser addLoginUser;
-    AddAmbulance addAmbulanceObj;
+	AddAmbulance addAmbulanceObj;
 	JMenu menuFile = new JMenu("File");
 	JMenu menuAmbulance = new JMenu("Ambuance");
 	JMenu menuTools = new JMenu("Tools");
@@ -55,7 +56,7 @@ public class Dashboard extends JFrame implements ActionListener {
 	JMenuItem itemExit = new JMenuItem();
 
 	JMenuItem itemAdd = new JMenuItem();
-	JMenuItem itemEdit = new JMenuItem();
+	JMenuItem ambulanceEdit = new JMenuItem();
 	JMenuItem itemDelete = new JMenuItem();
 
 	JMenuItem itemSettings = new JMenuItem();
@@ -168,24 +169,26 @@ public class Dashboard extends JFrame implements ActionListener {
 
 		// creating Submenu
 		// Menu File
-		menuFile.add(settings.setJMenuItem(itemAddLogin, "Add Login", "src/images/employee.png"));
-		menuFile.add(settings.setJMenuItem(itemExit, "Quit", "src/images/exit.png"));
+		menuFile.add(settings.setJMenuItem(itemAddLogin, "Add Login",
+				"src/images/employee.png"));
+		menuFile.add(settings.setJMenuItem(itemExit, "Quit",
+				"src/images/exit.png"));
 
 		itemExit.addActionListener(this);
-		
+
 		itemAddLogin.addActionListener(this);
 
 		// MEnu Employee
 		menuAmbulance.add(settings.setJMenuItem(itemAdd, "Add Ambulance",
 				"src/images/employee.png"));
-		menuAmbulance.add(settings.setJMenuItem(itemEdit, "Edit Ambulance",
-				"src/images/edit.png"));
+		menuAmbulance.add(settings.setJMenuItem(ambulanceEdit,
+				"Edit Ambulance", "src/images/edit.png"));
 		menuAmbulance.addSeparator();
 		menuAmbulance.add(settings.setJMenuItem(itemDelete, "Delete Ambulance",
 				"src/images/delete.png"));
 
 		itemAdd.addActionListener(this);
-		itemEdit.addActionListener(this);
+		ambulanceEdit.addActionListener(this);
 		itemDelete.addActionListener(this);
 
 		// setting tool bar
@@ -213,7 +216,8 @@ public class Dashboard extends JFrame implements ActionListener {
 
 		menuHelp.add(settings.setJMenuItem(itemAuthor, "About Author",
 				"src/images/xp.png"));
-		menuHelp.add(settings.setJMenuItem(itemHelp, "Help", "src/images/help.png"));
+		menuHelp.add(settings.setJMenuItem(itemHelp, "Help",
+				"src/images/help.png"));
 
 		itemAuthor.addActionListener(this);
 		itemHelp.addActionListener(this);
@@ -232,8 +236,8 @@ public class Dashboard extends JFrame implements ActionListener {
 	protected JToolBar createJToolBar() {
 		JToolBar toolbar = new JToolBar("Toolbar");
 
-		toolbar.add(settings.CreateJToolbarButton("Exit", "src/images/exit.png",
-				"File_Exit", JToolBarActionListener));
+		toolbar.add(settings.CreateJToolbarButton("Exit",
+				"src/images/exit.png", "File_Exit", JToolBarActionListener));
 		toolbar.addSeparator();
 		toolbar.addSeparator();
 
@@ -252,9 +256,11 @@ public class Dashboard extends JFrame implements ActionListener {
 		toolbar.add(settings.CreateJToolbarButton("Employee Position Settings",
 				"src/images/setting.png", "Settings", JToolBarActionListener));
 		toolbar.add(settings.CreateJToolbarButton("Calculator",
-				"src/images/calc.png", "Tools_Calculator", JToolBarActionListener));
+				"src/images/calc.png", "Tools_Calculator",
+				JToolBarActionListener));
 		toolbar.add(settings.CreateJToolbarButton("NotePad",
-				"src/images/notepad.png", "Tools_NotePad", JToolBarActionListener));
+				"src/images/notepad.png", "Tools_NotePad",
+				JToolBarActionListener));
 		toolbar.addSeparator();
 		toolbar.addSeparator();
 
@@ -275,7 +281,6 @@ public class Dashboard extends JFrame implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			String source = e.getActionCommand();
 
-			
 			if (source == "File_Exit") {
 				loadJInternalFrame(2);
 			} else if (source == "Emp_Add") {
@@ -306,16 +311,15 @@ public class Dashboard extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent event) {
 		Object object = event.getSource();
 
-		if (object==itemAddLogin )
-		{
+		if (object == itemAddLogin) {
 			loadJInternalFrame(1);
 		}
-			
+
 		if (object == itemExit) {
 			loadJInternalFrame(2);
-		}else if (object == itemAdd) {
+		} else if (object == itemAdd) {
 			loadJInternalFrame(3);
-		} else if (object == itemEdit) {
+		} else if (object == ambulanceEdit) {
 			loadJInternalFrame(4);
 		} else if (object == itemDelete) {
 			loadJInternalFrame(5);
@@ -341,10 +345,10 @@ public class Dashboard extends JFrame implements ActionListener {
 		switch (intWhich) {
 
 		case 1:
-			
+
 			try {
-				addLoginUser =new  AddLoginUser(this);
-				 loadForm("Add Admin", addLoginUser);
+				addLoginUser = new AddLoginUser(this);
+				loadForm("Add Admin", addLoginUser);
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.out.println("\nError");
@@ -356,8 +360,8 @@ public class Dashboard extends JFrame implements ActionListener {
 
 		case 3:
 			try {
-			 addAmbulanceObj = new AddAmbulance(this);
-				 loadForm("Add Ambulance", addAmbulanceObj);
+				addAmbulanceObj = new AddAmbulance(this);
+				loadForm("Add Ambulance", addAmbulanceObj);
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.out.println("\nError");
@@ -366,8 +370,9 @@ public class Dashboard extends JFrame implements ActionListener {
 
 		case 4:
 			try {
+
 				// FormEditwindow = new Editwindow(this);
-				// loadForm("Edit Employee", FormEditwindow);
+				loadForm("Edit Ambulance", new EditAmbulance(this));
 			} catch (Exception e) {
 				System.out.println("\nError");
 			}
@@ -376,7 +381,7 @@ public class Dashboard extends JFrame implements ActionListener {
 		case 5:
 			try {
 				// FormDeletewindow = new Deletewindow(this);
-				// loadForm("Delete Employee", FormDeletewindow);
+				 loadForm("Delete Ambulance", new DeleteAmbulance(this));
 			} catch (Exception e) {
 				System.out.println("\nError");
 			}

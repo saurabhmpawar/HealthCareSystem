@@ -1,6 +1,5 @@
 package com.healtcare;
 
-import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -25,34 +24,31 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
-import org.omg.CORBA.StringHolder;
+import sun.text.normalizer.CharTrie.FriendAgent;
 
-public class AddAmbulance extends JInternalFrame implements ActionListener {
+public class EditAmbulance extends JInternalFrame implements ActionListener {
 
 	JFrame JFParentFrame;
 	JDesktopPane desktop;
-	JTable table;
 	private JPanel firstpanel;
-
-	private JPanel panel2;
-
-	private JPanel panel3;
-
-	private JButton AddBtn;
-	private JButton ResetBtn;
+	private JPanel panel2, panel3;
+	private JButton FindBtn;
+	private JButton EditBtn;
 	private JButton ExitBtn;
 
-	JLabel lblAmbulanceNumber;
-	JLabel lblDriverName;
-	JLabel lblDriverPhone;
-	JLabel lblHospitalphone;
-	JLabel lblHospitalName;
-	JLabel lblAmbulanceAddress;
-	JLabel lblAmbulanceLat;
-	JLabel lblAmbulanceLong;
-	JLabel lblCity;
-	JLabel lblDescription;
+	private JLabel lblAmulanceId;
+	private JLabel lblAmbulanceNumber;
+	private JLabel lblDriverName;
+	private JLabel lblDriverPhone;
+	private JLabel lblHospitalphone;
+	private JLabel lblHospitalName;
+	private JLabel lblAmbulanceAddress;
+	private JLabel lblAmbulanceLat;
+	private JLabel lblAmbulanceLong;
+	private JLabel lblCity;
+	private JLabel lblDescription;
 
+	private JTextField txtAmbulanceId;
 	private JTextField txtAmbulanceNumber;
 	private JTextField txtDriverName;
 	private JTextField txtDriverPhone;
@@ -64,13 +60,8 @@ public class AddAmbulance extends JInternalFrame implements ActionListener {
 	private JTextField txtCity;
 	private JTextField txtDescription;
 
-	private JComboBox Emp_Type;
+	JTable table;
 
-	// private static JPasswordField passwordTxt, TxtPass2;
-	String dialogmessage;
-	String dialogs;
-
-	int dialogtype = JOptionPane.PLAIN_MESSAGE;
 	public static int record;
 	String strAmbulanceNumber;
 	String strAmbulanceId;
@@ -85,16 +76,23 @@ public class AddAmbulance extends JInternalFrame implements ActionListener {
 	String strCity;
 	String strAmbulanceAdderssdescription; // Class Variables
 
-	clsSettings settings = new clsSettings();
-	clsConnection connect = new clsConnection();
-
-	Connection conn;
 	Vector columnNames;
 	Vector data;
 
-	public AddAmbulance(JFrame getParentFrame) {
+	int dialogtype = JOptionPane.PLAIN_MESSAGE;
+	String dialogmessage;
+	String dialogs;
 
-		super("Add - Ambulance details ", true, true, true, true);
+	private JComboBox Emp_Type;
+
+	// Class Variables
+	clsSettings settings = new clsSettings();
+	clsConnection connect = new clsConnection();
+	Connection conn;
+
+	public EditAmbulance(JFrame getParentFrame) {
+		super("Edit - Ambuance ", true, true, true, true);
+
 		columnNames = new Vector();
 		data = new Vector();
 
@@ -102,6 +100,7 @@ public class AddAmbulance extends JInternalFrame implements ActionListener {
 		JFParentFrame = getParentFrame;
 
 		firstpanel = new JPanel();
+		lblAmulanceId = new JLabel("Ambulance Id");
 		lblAmbulanceNumber = new JLabel("Ambulance Number   ");
 		lblDriverName = new JLabel("Driver Name        ");
 		lblDriverPhone = new JLabel("Driver Phone	    ");
@@ -115,6 +114,7 @@ public class AddAmbulance extends JInternalFrame implements ActionListener {
 
 		// =================================================================
 
+		txtAmbulanceId = new JTextField(20);
 		txtAmbulanceNumber = new JTextField(20);
 		txtDriverName = new JTextField(20);
 		txtDriverPhone = new JTextField(20);
@@ -128,6 +128,8 @@ public class AddAmbulance extends JInternalFrame implements ActionListener {
 
 		// /=================================================
 
+		firstpanel.add(lblAmulanceId);
+		firstpanel.add(txtAmbulanceId);
 		firstpanel.add(lblAmbulanceNumber);
 		firstpanel.add(txtAmbulanceNumber);
 		firstpanel.add(lblDriverName);
@@ -152,27 +154,32 @@ public class AddAmbulance extends JInternalFrame implements ActionListener {
 		// =====================================================
 
 		firstpanel.setOpaque(true);
-		firstpanel.setLayout(new GridLayout(10, 2));
+		firstpanel.setLayout(new GridLayout(11, 2));
 		panel2 = new JPanel();
 		panel2.setLayout(new FlowLayout());
-		AddBtn = new JButton("Add");// , new ImageIcon("src/images/add.gif")
-		ResetBtn = new JButton("Reset");// reset, new
-										// ImageIcon("src/images/reset.png")
-		ExitBtn = new JButton("Exit");// , new ImageIcon("src/images/exit.png")
 
-		panel2.add(AddBtn);
-		AddBtn.addActionListener(this);
-		panel2.add(ResetBtn);
-		ResetBtn.addActionListener(this);
-		panel2.add(ExitBtn);
-		ExitBtn.addActionListener(this);
-		panel2.setOpaque(true);
 		panel3 = new JPanel();
 		panel3.setLayout(new FlowLayout());
 		loadTableData();
 
 		JScrollPane scrollPane = new JScrollPane(table);
 		panel3.add(scrollPane);
+
+		panel2 = new JPanel();
+		panel2.setLayout(new FlowLayout());
+		FindBtn = new JButton("Find");
+		EditBtn = new JButton("Edit");
+		ExitBtn = new JButton("Exit");
+
+		panel2.add(FindBtn);
+		FindBtn.addActionListener(this);
+		panel2.add(EditBtn);
+		EditBtn.addActionListener(this);
+		panel2.add(ExitBtn);
+		ExitBtn.addActionListener(this);
+		panel2.setOpaque(true);
+
+		
 		getContentPane().setLayout(new GridLayout(2, 1));
 		getContentPane().add(firstpanel, "CENTER");
 		getContentPane().add(panel3, "CENTER");
@@ -185,6 +192,8 @@ public class AddAmbulance extends JInternalFrame implements ActionListener {
 
 		// getContentPane().add(buttonPanel, BorderLayout.SOUTH);
 
+
+		enableMyTextBoxes(false);
 		pack();
 
 	}
@@ -214,9 +223,7 @@ public class AddAmbulance extends JInternalFrame implements ActionListener {
 
 				data.addElement(row);
 				table = new JTable(data, columnNames);
-				
-				
-			//table.setModel();
+
 			}
 
 		} catch (Exception ex) {
@@ -225,11 +232,104 @@ public class AddAmbulance extends JInternalFrame implements ActionListener {
 
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent event) {
 
 		Object source = event.getSource();
 
-		if (source.equals(AddBtn)) {
+		
+		if (source.equals(FindBtn)) {
+
+			strAmbulanceId = txtAmbulanceId.getText().trim();
+			// sEmp_Code = TxtEmp_Code.getText().trim();
+
+			try {
+				conn = connect.setConnection(conn);
+			} catch (Exception e) {
+			}
+			try {
+
+				Statement stmt = conn.createStatement();
+
+				if (!strAmbulanceId.equals("")) {
+					String query = "select * from ambulance WHERE ambulance_id="
+							+ strAmbulanceId;
+					ResultSet rs = stmt.executeQuery(query);
+					int foundrec = 0;
+					while (rs.next()) {
+						strAmbulanceNumber = rs.getString(2).trim();// ambulance_number
+						strDriverName = rs.getString(3).trim();// driver_name
+						strDriverPhone = rs.getString(4).trim();// driver_ph
+						strHospitalPhone = rs.getString(5).trim();// hospital_ph
+						strHospitalName = rs.getString(6).trim();// hospital_nm
+
+						strAmbulanceAdderss = rs.getString(7).trim();// ambulance_adr
+
+						strAmbulanceLat = rs.getString(8).trim();// ambulance_lat
+
+						strAmbulanceLong = rs.getString(9).trim();// ambulance_long
+
+						strAmbulaneStatus = rs.getString(10).trim();// ambulane_status
+
+						strCity = rs.getString(11).trim();// city
+
+						strAmbulanceAdderssdescription = rs.getString(12)
+								.trim();// description
+
+						txtAmbulanceNumber.setText(strAmbulanceNumber);
+						txtDriverName.setText(strDriverName);
+						txtDriverPhone.setText(strDriverPhone);
+						txtHospitalphone.setText(strHospitalPhone);
+						txtHospitalName.setText(strHospitalName);
+						txtAmbulanceAddress.setText(strAmbulanceAdderss);
+						txtAmbulanceLat.setText(strAmbulanceLat);
+						txtAmbulanceLong.setText(strAmbulanceLong);
+						txtCity.setText(strCity);
+						txtDescription.setText(strAmbulanceAdderssdescription);
+
+						foundrec = 1;
+
+					}
+
+					if (foundrec == 0) {
+						dialogmessage = "No Such Ambulance";
+
+						dialogtype = JOptionPane.WARNING_MESSAGE;
+						JOptionPane.showMessageDialog((Component) null,
+								dialogmessage, dialogs, dialogtype);
+						ResetRecord();
+
+					} else {
+						enableMyTextBoxes(true);
+						txtAmbulanceId.setEditable(false);
+					}
+
+				} else {
+					dialogmessage = "No Blank Field Allowed";
+
+					dialogtype = JOptionPane.WARNING_MESSAGE;
+					JOptionPane.showMessageDialog((Component) null,
+							dialogmessage, dialogs, dialogtype);
+					ResetRecord();
+
+				}
+				conn.close();
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("\nUnknown Error");
+			}
+
+		}
+
+		else if (source == EditBtn) {
+
+			// sEmp_Code = TxtEmp_Code.getText().trim();
+			// sEmp_Name1 = TxtEmp_Name1.getText().trim();
+			// sEmp_Name2 = TxtEmp_Name2.getText().trim();
+			// sEmp_Desi = (String) Emp_Type.getSelectedItem();
+			// sEmp_Add = TxtEmp_Add.getText().trim();
+			// sEmp_No = TxtEmp_No.getText().trim();
 
 			strAmbulanceNumber = txtAmbulanceNumber.getText().trim();
 			strDriverName = txtDriverName.getText().trim();
@@ -241,84 +341,105 @@ public class AddAmbulance extends JInternalFrame implements ActionListener {
 			strAmbulanceLong = txtAmbulanceLong.getText().trim();
 			strCity = txtCity.getText().trim();
 			strAmbulanceAdderssdescription = txtDescription.getText().trim();
+
 			try {
 				conn = connect.setConnection(conn);
 			} catch (Exception e) {
-				e.printStackTrace();
 			}
-
-			String PASS = "";
-			String PASS2 = "";
-
-			System.out.println("CORRECT PASSSSSSSSSSSSSSSS");
-
 			try {
 
 				Statement stmt = conn.createStatement();
-				if (!strDriverPhone.equals("") && !strDriverPhone.equals("")
-						&& !strHospitalPhone.equalsIgnoreCase("")) {
-					// ==========================================insert
-					// into table FG ===================================
 
-					String query = "INSERT INTO `healthcare`.`ambulance` ( `ambulance_number`, `driver_name`, `driver_ph`, `hospital_ph`, `hospital_nm`, `ambulance_adr`, `ambulance_lat`, `ambulance_long`, `ambulane_status`, `city`, `description`) VALUES ('"
-							+ strAmbulanceNumber
-							+ "', '"
-							+ strDriverName
-							+ "', '"
-							+ strDriverPhone
-							+ "', '"
-							+ strHospitalPhone
-							+ "', '"
-							+ strHospitalName
-							+ "', '"
-							+ strAmbulanceAdderss
-							+ "', '"
-							+ strAmbulanceLat
-							+ "', '"
-							+ strAmbulanceLong
-							+ "', 'ACTIVE', '"
-							+ strCity
-							+ "', '"
-							+ strAmbulanceAdderssdescription + "')";
-					int result = stmt.executeUpdate(query);
+				if (!strAmbulanceNumber.equals("") && !strDriverName.equals("")
+						&& !strDriverPhone.equals("")
+						&& !strHospitalPhone.equals("")
+						&& !strHospitalName.equals("")
+						&& !strAmbulanceAdderss.equals("")
+						&& !strAmbulanceLat.equals("")
+						&& !strAmbulanceLong.equals("")
+						&& !strAmbulaneStatus.equals("") && !strCity.equals("")
+						&& !strAmbulanceAdderssdescription.equals(""))
+
+				{
+					String temp = "UPDATE ambulance SET "
+							+ "ambulance_number = '" + strAmbulanceNumber
+							+ "',driver_name = '" + strDriverName
+							+ "',driver_ph = '" + strDriverPhone
+							+ "',hospital_ph = '" + strHospitalPhone
+							+ "',hospital_nm = '" + strHospitalName
+							+ "',ambulance_adr = '" + strAmbulanceAdderss 
+							+ "',city = '" + strCity 
+							+ "',description = '" + strAmbulanceAdderssdescription 
+							+ "',ambulance_lat = " + strAmbulanceLat 
+							+ ",ambulance_long = " + strAmbulanceLong 
+							+ "WHERE ambulance_id = " + strAmbulanceId;
+					System.out.println("Update query= "+temp);
+					
+					int result = stmt.executeUpdate(temp);
 					if (result == 1) {
-						loadTableData();
-						System.out.println("Recorded Added");
+
+						dialogmessage = "Record Updated!!!";
+						dialogtype = JOptionPane.INFORMATION_MESSAGE;
+						JOptionPane.showMessageDialog((Component) null,
+								dialogmessage, dialogs, dialogtype);
 						ResetRecord();
-						dialogmessage = "Recoard is added!!!";
+
+					} else {
+						dialogmessage = "NO SUCH EMPLOYEE!!!";
 						dialogtype = JOptionPane.WARNING_MESSAGE;
 						JOptionPane.showMessageDialog((Component) null,
 								dialogmessage, dialogs, dialogtype);
+
 					}
-					// ===============================================================================================
 
 				}
 
 				else {
-					dialogmessage = "Empty Record !!!";
+					dialogmessage = "NULL VALUES OCCURED IN TEXTFIELD!!!";
 					dialogtype = JOptionPane.WARNING_MESSAGE;
 					JOptionPane.showMessageDialog((Component) null,
 							dialogmessage, dialogs, dialogtype);
+					ResetRecord();
+
 				}
+
 				conn.close();
+
 			} catch (Exception ex) {
 				ex.printStackTrace();
 				JOptionPane.showMessageDialog(null, "GENERAL EXCEPTION",
 						"WARNING!!!", JOptionPane.INFORMATION_MESSAGE);
+				System.out.println("Error in Edi Btn" + ex);
 			}
 
 		}
 
-		else if (source == ResetBtn) {
-			ResetRecord();
-		} else if (source == ExitBtn) {
+		else if (source == ExitBtn) {
+
 			setVisible(false);
 			dispose();
 		}
 
 	}
 
+	private void enableMyTextBoxes(Boolean enabled) {
+
+		txtAmbulanceId.setEditable(!enabled);
+		txtAmbulanceNumber.setEditable(enabled);
+		txtDriverName.setEditable(enabled);
+		txtDriverPhone.setEditable(enabled);
+		txtHospitalphone.setEditable(enabled);
+		txtHospitalName.setEditable(enabled);
+		txtAmbulanceAddress.setEditable(enabled);
+		txtAmbulanceLat.setEditable(enabled);
+		txtAmbulanceLong.setEditable(enabled);
+		txtCity.setEditable(enabled);
+		txtDescription.setEditable(enabled);
+	}
+
 	private void ResetRecord() {
+		enableMyTextBoxes(false);
+		txtAmbulanceId.setText("");
 		txtAmbulanceNumber.setText("");
 		txtDriverName.setText("");
 		txtDriverPhone.setText("");
@@ -336,28 +457,25 @@ public class AddAmbulance extends JInternalFrame implements ActionListener {
 		try {
 			conn = connect.setConnection(conn);
 		} catch (Exception e) {
-			e.printStackTrace();
 		}
 		try {
+
 			Statement stmt = conn.createStatement();
-			String query = "INSERT INTO `healthcare`.`ambulance` (`ambulance_id`, `ambulance_number`, `driver_name`, `driver_ph`, `hospital_ph`, `hospital_nm`, `ambulance_adr`, `ambulance_lat`, `ambulance_long`, `ambulane_status`, `city`, `description`) VALUES (1, 'Md 10 BS 5948', 'Mr .Saurabh Pawar', '9423523922', '9421126028', 'Pawar hospital', 'vita', '21.7854558', '74.3545588', 'ACTIVE', 'VITA', 'maruti van')";
 
-			int result = stmt.executeUpdate(query);
-			if (result == 1) {
-				System.out.println("Recorded Added");
-				ResetRecord();
-				dialogmessage = "Recoard is added!!!";
-				dialogtype = JOptionPane.WARNING_MESSAGE;
-				JOptionPane.showMessageDialog((Component) null, dialogmessage,
-						dialogs, dialogtype);
-			} else
+			String query = "SELECT * FROM Settings";
+			ResultSet rs = stmt.executeQuery(query);
 
-				conn.close();
+			while (rs.next()) {
+
+				String Txtcmb = rs.getString(2).trim();
+
+				cmb.addItem(Txtcmb);
+
+			}
+			conn.close();
 		}
 
 		catch (Exception ex) {
-
-			ex.printStackTrace();
 
 		}
 
