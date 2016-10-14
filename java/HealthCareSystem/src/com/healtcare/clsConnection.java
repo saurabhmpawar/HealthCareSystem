@@ -12,7 +12,7 @@ public class clsConnection {
 
 	static final String DB_URL = "jdbc:mysql://localhost:3306/healthcare";
 	static final String USER_NAME = "root";
-	static final String PASSWORD = "root";
+	static final String PASSWORD = "jumanji@2";
 
 	
 	public Connection setConnection(Connection conn)

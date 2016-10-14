@@ -61,6 +61,8 @@ public class Dashboard extends JFrame implements ActionListener {
 	JMenuItem itemDelete = new JMenuItem();
 	JMenuItem searchAmbulance = new JMenuItem();
 
+	JMenuItem sendSms = new JMenuItem();
+
 	JMenuItem itemCalculator = new JMenuItem();
 	JMenuItem itemNotePad = new JMenuItem();
 
@@ -193,10 +195,16 @@ public class Dashboard extends JFrame implements ActionListener {
 		menuAmbulance.add(settings.setJMenuItem(searchAmbulance,
 				"Search Ambulance", "src/images/search.png"));
 
+		menuAmbulance.addSeparator();
+
+		menuAmbulance.add(settings.setJMenuItem(sendSms, "Send Sms",
+				"src/images/mspaint.png"));
+
 		itemAdd.addActionListener(this);
 		ambulanceEdit.addActionListener(this);
 		itemDelete.addActionListener(this);
 		searchAmbulance.addActionListener(this);
+		sendSms.addActionListener(this);
 
 		// setting tool bar
 
@@ -233,7 +241,7 @@ public class Dashboard extends JFrame implements ActionListener {
 		menubar.add(settings.setJMenu(menuAmbulance));
 		menubar.add(settings.setJMenu(menuTools));
 		menubar.add(settings.setJMenu(menuReports));
-		menubar.add(settings.setJMenu(menuHelp));
+		//menubar.add(settings.setJMenu(menuHelp));
 		return menubar;
 
 	}
@@ -258,7 +266,7 @@ public class Dashboard extends JFrame implements ActionListener {
 		toolbar.addSeparator();
 		toolbar.addSeparator();
 
-		toolbar.add(settings.CreateJToolbarButton("Employee Position Settings",
+		toolbar.add(settings.CreateJToolbarButton("Find Abulance",
 				"src/images/setting.png", "Settings", JToolBarActionListener));
 		toolbar.add(settings.CreateJToolbarButton("Calculator",
 				"src/images/calc.png", "Tools_Calculator",
@@ -273,11 +281,13 @@ public class Dashboard extends JFrame implements ActionListener {
 				"src/images/emp_rpt.png", "Reports_Employee",
 				JToolBarActionListener));
 
-		toolbar.add(settings.CreateJToolbarButton("Help - Author",
-				"src/images/xp.png", "Help_Author", JToolBarActionListener));
-
-		toolbar.add(settings.CreateJToolbarButton("Help - Help",
-				"src/images/help.png", "Help_Help", JToolBarActionListener));
+		/*
+		 * toolbar.add(settings.CreateJToolbarButton("Help - Author",
+		 * "src/images/xp.png", "Help_Author", JToolBarActionListener));
+		 * 
+		 * toolbar.add(settings.CreateJToolbarButton("Help - Help",
+		 * "src/images/help.png", "Help_Help", JToolBarActionListener));
+		 */
 		return toolbar;
 
 	}
@@ -338,8 +348,7 @@ public class Dashboard extends JFrame implements ActionListener {
 		} else if (object == itemEmprpt) {
 			loadJInternalFrame(9);
 		}
-
-		else if (object == itemAuthor) {
+		else if (object == sendSms) {
 			loadJInternalFrame(12);
 		} else if (object == itemHelp) {
 			loadJInternalFrame(13);
@@ -422,7 +431,13 @@ public class Dashboard extends JFrame implements ActionListener {
 			break;
 
 		case 12:
-			// FormAuthorwindow = new Authorwindow(this);
+			try {
+				loadForm("Send Sms", new SmsSending(this));
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("\nError");
+			}
+
 			break;
 
 		case 13:
