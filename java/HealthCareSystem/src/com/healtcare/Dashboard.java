@@ -278,7 +278,7 @@ public class Dashboard extends JFrame implements ActionListener {
 		toolbar.addSeparator();
 
 		toolbar.add(settings.CreateJToolbarButton("Ambulance - Report",
-				"src/images/emp_rpt.png", "Reports_Employee",
+				"src/images/emp_rpt.png", "Reports_Ambulance",
 				JToolBarActionListener));
 
 		/*
@@ -310,7 +310,7 @@ public class Dashboard extends JFrame implements ActionListener {
 				loadJInternalFrame(7);
 			} else if (source == "Tools_NotePad") {
 				loadJInternalFrame(8);
-			} else if (source == "Reports_Employee") {
+			} else if (source == "Reports_Ambulance") {
 				loadJInternalFrame(9);
 			}
 
@@ -422,11 +422,10 @@ public class Dashboard extends JFrame implements ActionListener {
 
 		case 9:
 			try {
-				// / FormEmprptwindow = new Emprptwindow(this);
-				// loadForm("Employee PaySlip", FormEmprptwindow);
-
+				loadForm("Ambulance Report", new AmbulanceReport(this));
 			} catch (Exception e) {
-				System.out.println("\nError" + e);
+				e.printStackTrace();
+				System.out.println("\nError");
 			}
 			break;
 
